@@ -1,6 +1,3 @@
-logs/*.log
-reports/*.html
-reports/*.json
-!logs/.gitkeep
-!reports/.gitkeep
-!assets/.gitkeep
+cd "$HOME\Desktop\SystemAudit"
+Set-ExecutionPolicy Bypass -Scope Process -Force
+.\audit.ps1
