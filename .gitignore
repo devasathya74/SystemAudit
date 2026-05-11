@@ -1,0 +1,6 @@
+logs/*.log
+reports/*.html
+reports/*.json
+!logs/.gitkeep
+!reports/.gitkeep
+!assets/.gitkeep

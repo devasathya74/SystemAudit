@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>System Audit Intelligence Report</title>
+  <link rel="stylesheet" href="../templates/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark"></span>
+      <div>
+        <strong>SystemAudit</strong>
+        <small>Health Intelligence</small>
+      </div>
+    </div>
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#system">System Health</a>
+      <a href="#performance">Performance</a>
+      <a href="#security">Security</a>
+      <a href="#network">Network Exposure</a>
+      <a href="#applications">Applications</a>
+      <a href="#trust">Trust Analysis</a>
+      <a href="#persistence">Startup & Persistence</a>
+      <a href="#processes">Processes</a>
+      <a href="#drivers">Drivers</a>
+      <a href="#browser">Browser Security</a>
+      <a href="#persistence-map">Persistence Map</a>
+      <a href="#events">Event Analysis</a>
+      <a href="#diff">Historical Diff</a>
+      <a href="#malware">Malware Indicators</a>
+      <a href="#recommendations">Recommendations</a>
+      <a href="#logs">Raw Logs</a>
+    </nav>
+  </aside>
+
+  <main>
+    <section id="overview" class="section overview-band">
+      <div>
+        <p class="eyebrow">Enterprise Windows Assessment</p>
+        <h1 id="hostTitle">Audit Report</h1>
+        <p id="runMeta" class="muted"></p>
+        <button id="exportJson" class="command-button" type="button">Export JSON</button>
+      </div>
+      <div class="risk-orbit">
+        <canvas id="riskChart" width="180" height="180"></canvas>
+        <div>
+          <span id="riskScore">0</span>
+          <strong id="riskSeverity">SAFE</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="metric-grid" id="metricGrid"></section>
+
+    <section id="system" class="section">
+      <header><h2>System Health</h2></header>
+      <div class="data-grid" id="systemGrid"></div>
+      <div class="data-grid" id="healthGrid"></div>
+      <div class="table-wrap"><table id="diskTable"></table></div>
+    </section>
+
+    <section id="performance" class="section">
+      <header><h2>Performance</h2></header>
+      <div class="chart-grid">
+        <div class="panel"><canvas id="cpuChart"></canvas></div>
+        <div class="panel"><canvas id="ramChart"></canvas></div>
+        <div class="panel"><canvas id="diskChart"></canvas></div>
+        <div class="panel"><canvas id="severityChart"></canvas></div>
+      </div>
+      <div class="table-wrap"><table id="processTable"></table></div>
+    </section>
+
+    <section id="security" class="section">
+      <header><h2>Security</h2></header>
+      <div class="data-grid" id="securityGrid"></div>
+    </section>
+
+    <section id="network" class="section">
+      <header><h2>Network Exposure</h2></header>
+      <div class="data-grid" id="networkGrid"></div>
+      <div class="toolbar">
+        <input id="portSearch" type="search" placeholder="Filter ports, process, protocol">
+        <select id="portSeverity">
+          <option value="">All severities</option>
+          <option value="CRITICAL">Critical</option>
+          <option value="HIGH">High</option>
+          <option value="WARNING">Warning</option>
+          <option value="INFO">Info</option>
+        </select>
+      </div>
+      <div class="table-wrap"><table id="portsTable"></table></div>
+    </section>
+
+    <section id="applications" class="section">
+      <header><h2>Applications</h2></header>
+      <div class="data-grid" id="applicationGrid"></div>
+      <div class="table-wrap"><table id="applicationsTable"></table></div>
+    </section>
+
+    <section id="trust" class="section">
+      <header><h2>Trust Analysis</h2></header>
+      <div class="data-grid" id="trustGrid"></div>
+      <div class="table-wrap"><table id="servicePriorityTable"></table></div>
+      <div class="table-wrap"><table id="unsignedTable"></table></div>
+    </section>
+
+    <section id="persistence" class="section">
+      <header><h2>Startup & Persistence</h2></header>
+      <div class="table-wrap"><table id="startupTable"></table></div>
+      <div class="table-wrap"><table id="scheduledTaskTable"></table></div>
+    </section>
+
+    <section id="processes" class="section">
+      <header><h2>Processes</h2></header>
+      <div class="table-wrap"><table id="processIntelTable"></table></div>
+    </section>
+
+    <section id="drivers" class="section">
+      <header><h2>Drivers</h2></header>
+      <div class="table-wrap"><table id="driverTable"></table></div>
+    </section>
+
+    <section id="browser" class="section">
+      <header><h2>Browser Security</h2></header>
+      <div class="table-wrap"><table id="browserExtensionTable"></table></div>
+    </section>
+
+    <section id="persistence-map" class="section">
+      <header><h2>Persistence Map</h2></header>
+      <div class="timeline" id="persistenceTimeline"></div>
+      <div class="table-wrap"><table id="persistenceTable"></table></div>
+    </section>
+
+    <section id="events" class="section">
+      <header><h2>Event Analysis</h2></header>
+      <div class="table-wrap"><table id="eventTable"></table></div>
+    </section>
+
+    <section id="diff" class="section">
+      <header><h2>Historical Diff</h2></header>
+      <div class="data-grid" id="diffGrid"></div>
+      <div class="table-wrap"><table id="diffTable"></table></div>
+    </section>
+
+    <section id="malware" class="section">
+      <header><h2>Threat Indicators</h2></header>
+      <div class="table-wrap"><table id="malwareTable"></table></div>
+      <div class="table-wrap"><table id="correlationTable"></table></div>
+    </section>
+
+    <section id="recommendations" class="section">
+      <header>
+        <h2>Recommendations</h2>
+        <div class="toolbar inline">
+          <input id="recSearch" type="search" placeholder="Search recommendations">
+          <select id="recSeverity">
+            <option value="">All severities</option>
+            <option value="CRITICAL">Critical</option>
+            <option value="HIGH">High</option>
+            <option value="WARNING">Warning</option>
+            <option value="SAFE">Safe</option>
+          </select>
+        </div>
+      </header>
+      <div id="recommendationList" class="recommendations"></div>
+    </section>
+
+    <section id="logs" class="section">
+      <header><h2>Raw Logs</h2></header>
+      <pre id="logView"></pre>
+    </section>
+  </main>
+
+  <script>
+    window.__AUDIT_DATA__ = __AUDIT_JSON_PAYLOAD__;
+  </script>
+  <script src="../templates/app.js"></script>
+</body>
+</html>
